@@ -2,7 +2,7 @@ import { getSavedJobs } from "@/api/apiJobs";
 import JobCard from "@/components/JobCard";
 import useFetch from "@/hooks/use-Fetch";
 import { useUser } from "@clerk/clerk-react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BarLoader } from "react-spinners";
 
 const SavedJobs = () => {
@@ -18,7 +18,6 @@ const SavedJobs = () => {
     if (isLoaded) {
       fnSavedJobs();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded]);
 
   if (!isLoaded || loadingSavedJobs) {
@@ -39,7 +38,7 @@ const SavedJobs = () => {
                 <JobCard
                   key={saved.id}
                   job={saved?.job}
-                  onJobAction={fnSavedJobs}
+                  onJobSaved={fnSavedJobs}
                   savedInit={true}
                 />
               );
