@@ -9,6 +9,7 @@ import {
 } from "@clerk/clerk-react";
 import { BriefcaseBusiness, Heart, PenBox } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ModeToggle } from "./mode-toggle";
 
 const Header = () => {
   const [showSignIn, setshowSignIn] = useState(false);
@@ -31,8 +32,8 @@ const Header = () => {
         <Link>
           <img src="/logo.png" className="h-20" alt="hiremelogo" />
         </Link>
-
         <div className="flex gap-8">
+          <ModeToggle />
           <SignedOut>
             <Button variant="outline" onClick={() => setshowSignIn(true)}>
               Login
