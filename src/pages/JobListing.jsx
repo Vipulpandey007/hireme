@@ -1,6 +1,7 @@
 import { getCompanies } from "@/api/apicompanies";
 import { getJobs } from "@/api/apiJobs";
 import JobCard from "@/components/JobCard";
+import Paginationsection from "@/components/Paginationsection";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -22,6 +23,9 @@ const JobListing = () => {
   const [location, setLocation] = useState("");
   const [company_id, setCompany_id] = useState("");
   const { isLoaded } = useUser();
+  //for Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(6);
 
   const {
     fn: fnJobs,
@@ -34,6 +38,10 @@ const JobListing = () => {
   });
 
   const { data: companies, fn: fnCompanies } = useFetch(getCompanies);
+
+  //for pagination
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
 
   useEffect(() => {
     if (isLoaded) {
@@ -137,21 +145,29 @@ const JobListing = () => {
       )}
 
       {loadingJobs === false && (
-        <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {jobs?.length ? (
-            jobs.map((job) => {
-              return (
-                <JobCard
-                  key={job.id}
-                  job={job}
-                  savedInit={job?.saved?.length > 0}
-                />
-              );
-            })
-          ) : (
-            <div>No Jobs Found 😢</div>
-          )}
-        </div>
+        <>
+          <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            {jobs?.length ? (
+              jobs.slice(firstPostIndex, lastPostIndex).map((job) => {
+                return (
+                  <JobCard
+                    key={job.id}
+                    job={job}
+                    savedInit={job?.saved?.length > 0}
+                  />
+                );
+              })
+            ) : (
+              <div>No Jobs Found 😢</div>
+            )}
+          </div>
+          <Paginationsection
+            totalPosts={jobs.length}
+            postsPerPage={postsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </>
       )}
     </div>
   );
