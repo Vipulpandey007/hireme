@@ -9,7 +9,9 @@ const Applayout = () => {
         <Header />
         <Outlet />
       </main>
-      <div className="p-10 text-center bg-gray-800 mt-10">Made by Vipul</div>
+      <div className="p-10 text-center bg-slate-300 dark:bg-gray-800 mt-10">
+        Made by Vipul
+      </div>
     </div>
   );
 };
